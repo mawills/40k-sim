@@ -15,11 +15,20 @@ def submit():
 
 
 def add_weapon_block(frame: tk.Frame):
-    print("hello")
+    global weapon_block_index
+    weapon_block_index += 1
+    WeaponStatBlock.create_stat_block(frame, weapon_block_index)
 
 
 def remove_weapon_block(frame: tk.Frame):
-    print("goodbye")
+    all_rows = frame.grid_slaves()
+    last_row = max(row.grid_info()["row"] for row in all_rows)
+    if last_row > 1:
+        global weapon_block_index
+        weapon_block_index -= 1
+        for row in all_rows:
+            if row.grid_info()["row"] == last_row:
+                row.grid_remove()
 
 
 root = tk.Tk()
@@ -28,20 +37,25 @@ root.title("Warhammer 10E Damage Profile Comparison")
 frame = tk.Frame(root)
 frame.pack()
 
+weapon_block_index = 1
+
 weapon_info_frame = tk.LabelFrame(frame, text="Weapon Stats")
 weapon_info_frame.grid(pady=10, padx=10, row=0, column=0)
 
-WeaponStatBlock.create_stat_block(weapon_info_frame)
+weapon_info_controls = tk.LabelFrame(frame)
+weapon_info_controls.grid(pady=10, padx=10, row=1, column=0)
+
+WeaponStatBlock.create_stat_block(weapon_info_frame, weapon_block_index)
 
 add_weapon_block_button = tk.Button(
-    weapon_info_frame,
+    weapon_info_controls,
     text="Add Weapon",
     command=lambda frame=weapon_info_frame: add_weapon_block(frame),
 )
 add_weapon_block_button.grid(pady=10, padx=10, row=3, column=0)
 
 remove_weapon_block_button = tk.Button(
-    weapon_info_frame,
+    weapon_info_controls,
     text="Remove Weapon",
     command=lambda frame=weapon_info_frame: remove_weapon_block(frame),
 )
