@@ -8,8 +8,11 @@ with open("weapons.json", "r") as json_file:
 
 # TODO:
 # - validate user input
-# - pull data from user input instead of hardcoded weapons
-# - add weapon abilities (lethal hits, sustained hits, etc.)
+# - add weapon abilities:
+#   - sustained hits
+#   - blast
+#   - improve critical hit
+#   - improve critical wound
 
 
 def parse(data) -> List[Weapon]:
