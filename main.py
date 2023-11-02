@@ -1,17 +1,32 @@
 import tkinter as tk
+from typing import List
 from run_simulation import run_simulation
 from weapon_profile import Weapon
 from weapon_stat_block import WeaponStatBlock
 
+# TODO:
+# - validate user input
+# - pull data from user input instead of hardcoded weapons
+# - add weapon abilities (lethal hits, sustained hits, etc.)
+
 
 def submit():
-    # test data
+    weapons = extract_input()
+    run_simulation(weapons)
+
+
+def extract_input() -> List[Weapon]:
+    # for weapon_input in weapon_info_frame.grid_slaves():
+    #     for weapon in weapon_input.grid_slaves():
+    #         if isinstance(weapon, tk.Entry):
+    #             print(weapon)
+    #             print(weapon.get)
+    #     print("----")
+
     weapon1 = Weapon("weapon1", 4, 3, 4, 0, 1, 5)
     weapon2 = Weapon("weapon2", 4, 3, 4, 0, 1, 5)
     weapon3 = Weapon("weapon3", 4, 3, 8, 1, 1, 5)
-    weapons = [weapon1, weapon2, weapon3]
-
-    run_simulation(frame, weapons)
+    return [weapon1, weapon2, weapon3]
 
 
 def add_weapon_block(frame: tk.Frame):

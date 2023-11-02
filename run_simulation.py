@@ -1,5 +1,4 @@
 import random
-import tkinter as tk
 from typing import List
 from config import NUM_TRIALS, TOUGHNESS_CHARACTERISTICS, SAVE_CHARACTERISTICS
 from weapon_profile import Weapon
@@ -54,21 +53,19 @@ def saving_throw(numWounds: int, weapon: Weapon, save: int) -> int:
     return num_failed_saves
 
 
-def run_simulation(parent_frame: tk.Frame, weapons: List[Weapon]):
-    weapon_names = [weapon.name for weapon in weapons]
+def run_simulation(weapons: List[Weapon]):
+    result = {}
 
-    weapon_damage_results = []
-    for toughness in TOUGHNESS_CHARACTERISTICS:
-        for save in reversed(SAVE_CHARACTERISTICS):
-            result = []
-            for weapon in weapons:
+    for weapon in weapons:
+        result[weapon.name] = []
+        for toughness in TOUGHNESS_CHARACTERISTICS:
+            for save in reversed(SAVE_CHARACTERISTICS):
                 total_damage = 0
                 for _ in range(NUM_TRIALS):
                     hits = hit_roll(weapon)
                     wounds = wound_roll(hits, weapon, toughness)
                     damage = saving_throw(wounds, weapon, save)
                     total_damage += damage
-                result.append(round(total_damage / NUM_TRIALS, 1))
-            weapon_damage_results.append(result)
+                result[weapon.name].append(round(total_damage / NUM_TRIALS, 1))
 
-    DamageGraph.render_graph(parent_frame, weapon_names, weapon_damage_results)
+    DamageGraph.render_graph(result)
