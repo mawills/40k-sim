@@ -2,17 +2,17 @@ class Weapon:
     def __init__(
         self,
         name: str,
-        num_attacks: int,
+        num_attacks: int | str,
         skill: int,
         strength: int,
         armorPen: int,
         damage: int,
         count: int,
-        lethal_hits: bool = False,
-        sustained_hits: int = False,
-        devastating_wounds: bool = False,
-        critical_hit_value: int = 6,
-        critical_wound_value: int = 6,
+        lethal_hits: bool,
+        sustained_hits: int,
+        devastating_wounds: bool,
+        critical_hit_value: int,
+        critical_wound_value: int,
     ):
         self.name = name
         self.num_attacks = num_attacks

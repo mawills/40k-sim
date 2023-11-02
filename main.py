@@ -1,8 +1,10 @@
-import tkinter as tk
+import json
 from typing import List
 from run_simulation import run_simulation
 from weapon_profile import Weapon
-from weapon_stat_block import WeaponStatBlock
+
+with open("weapons.json", "r") as json_file:
+    data = json.load(json_file)
 
 # TODO:
 # - validate user input
@@ -10,76 +12,29 @@ from weapon_stat_block import WeaponStatBlock
 # - add weapon abilities (lethal hits, sustained hits, etc.)
 
 
-def submit():
-    weapons = extract_input()
-    run_simulation(weapons)
+def parse(data) -> List[Weapon]:
+    weapons = []
+    for weapon in data:
+        name = weapon
+        weapon = data[weapon]
+        weapons.append(
+            Weapon(
+                name,
+                weapon["num_attacks"],
+                weapon["skill"],
+                weapon["strength"],
+                weapon["armor_pen"],
+                weapon["damage"],
+                weapon["count"],
+                weapon.get("lethal_hits", False),
+                weapon.get("sustained_hits", 0),
+                weapon.get("devastating_wounds", False),
+                weapon.get("critical_hit_value", 6),
+                weapon.get("critical_wound_value", 6),
+            )
+        )
+    return weapons
 
 
-def extract_input() -> List[Weapon]:
-    # for weapon_input in weapon_info_frame.grid_slaves():
-    #     for weapon in weapon_input.grid_slaves():
-    #         if isinstance(weapon, tk.Entry):
-    #             print(weapon)
-    #             print(weapon.get)
-    #     print("----")
-
-    weapon1 = Weapon("weapon1", 4, 3, 4, 0, 1, 5)
-    weapon2 = Weapon("weapon2", 4, 3, 4, 0, 1, 5)
-    weapon3 = Weapon("weapon3", 4, 3, 8, 1, 1, 5)
-    return [weapon1, weapon2, weapon3]
-
-
-def add_weapon_block(frame: tk.Frame):
-    global weapon_block_index
-    weapon_block_index += 1
-    WeaponStatBlock.create_stat_block(frame, weapon_block_index)
-
-
-def remove_weapon_block(frame: tk.Frame):
-    all_rows = frame.grid_slaves()
-    last_row = max(row.grid_info()["row"] for row in all_rows)
-    if last_row > 1:
-        global weapon_block_index
-        weapon_block_index -= 1
-        for row in all_rows:
-            if row.grid_info()["row"] == last_row:
-                row.grid_remove()
-
-
-root = tk.Tk()
-root.title("Warhammer 10E Damage Profile Comparison")
-
-frame = tk.Frame(root)
-frame.pack()
-
-weapon_block_index = 1
-
-weapon_info_frame = tk.LabelFrame(frame, text="Weapon Stats")
-weapon_info_frame.grid(pady=10, padx=10, row=0, column=0)
-
-weapon_info_controls = tk.LabelFrame(frame)
-weapon_info_controls.grid(pady=10, padx=10, row=1, column=0)
-
-WeaponStatBlock.create_stat_block(weapon_info_frame, weapon_block_index)
-
-add_weapon_block_button = tk.Button(
-    weapon_info_controls,
-    text="Add Weapon",
-    command=lambda frame=weapon_info_frame: add_weapon_block(frame),
-)
-add_weapon_block_button.grid(pady=10, padx=10, row=3, column=0)
-
-remove_weapon_block_button = tk.Button(
-    weapon_info_controls,
-    text="Remove Weapon",
-    command=lambda frame=weapon_info_frame: remove_weapon_block(frame),
-)
-remove_weapon_block_button.grid(pady=10, padx=10, row=3, column=1)
-
-graph_frame = tk.LabelFrame(frame, text="Simulation Results")
-graph_frame.grid(pady=10, row=1, column=0)
-
-submit_button = tk.Button(root, text="Run Simulation", command=submit)
-submit_button.pack(pady=10)
-
-root.mainloop()
+weapons = parse(data)
+run_simulation(weapons)
