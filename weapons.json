@@ -1,26 +1,26 @@
 {
-  "weapon1": {
+  "Boltgun (10)": {
     "num_attacks": 2,
     "skill": 3,
     "strength": 4,
     "armor_pen": 0,
     "damage": 1,
-    "count": 5
+    "count": 10
   },
-  "weapon2": {
-    "num_attacks": 4,
-    "skill": 3,
+  "Flamer (5)": {
+    "num_attacks": "D6",
+    "skill": 1,
     "strength": 4,
     "armor_pen": 0,
     "damage": 1,
     "count": 5
   },
-  "weapon3": {
+  "Lascannon (1)": {
     "num_attacks": 2,
     "skill": 3,
-    "strength": 8,
+    "strength": 12,
     "armor_pen": 3,
-    "damage": 3,
-    "count": 5
+    "damage": "D6+1",
+    "count": 1
   }
 }

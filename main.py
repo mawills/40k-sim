@@ -1,10 +1,7 @@
 import json
-from typing import List
+from json_parser import JsonParser
 from run_simulation import run_simulation
-from weapon_profile import Weapon
 
-with open("weapons.json", "r") as json_file:
-    data = json.load(json_file)
 
 # TODO:
 # - validate user input
@@ -13,31 +10,11 @@ with open("weapons.json", "r") as json_file:
 #   - blast
 #   - improve critical hit
 #   - improve critical wound
+#   - torrent
 
+with open("weapons.json", "r") as json_file:
+    data = json.load(json_file)
 
-def parse(data) -> List[Weapon]:
-    weapons = []
-    for weapon in data:
-        name = weapon
-        weapon = data[weapon]
-        weapons.append(
-            Weapon(
-                name,
-                weapon["num_attacks"],
-                weapon["skill"],
-                weapon["strength"],
-                weapon["armor_pen"],
-                weapon["damage"],
-                weapon["count"],
-                weapon.get("lethal_hits", False),
-                weapon.get("sustained_hits", 0),
-                weapon.get("devastating_wounds", False),
-                weapon.get("critical_hit_value", 6),
-                weapon.get("critical_wound_value", 6),
-            )
-        )
-    return weapons
-
-
-weapons = parse(data)
+parser = JsonParser()
+weapons = parser.parse_input(data)
 run_simulation(weapons)

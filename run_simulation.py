@@ -1,4 +1,5 @@
 import random
+import re
 from typing import List
 from config import NUM_TRIALS, TOUGHNESS_CHARACTERISTICS, SAVE_CHARACTERISTICS
 from hit_roll_result import HitRollResult
@@ -7,18 +8,32 @@ from weapon_profile import Weapon
 from damage_graph import DamageGraph
 
 
-def roll_d6() -> int:
-    return random.randint(1, 6)
+def dice_roll(dice: str) -> int:
+    split_string = re.split("[Dd+]", dice)
+
+    multiplier = int(split_string[0]) if len(split_string[0]) > 1 else 1
+    max_roll = int(split_string[1]) or 1
+    addition = 0
+    if len(split_string) > 2:
+        addition = int(split_string[2]) if len(split_string[2]) > 1 else 0
+
+    return multiplier * random.randint(1, max_roll) + addition
 
 
 def attack_roll(weapon: Weapon) -> int:
-    return weapon.num_attacks
+    if isinstance(weapon.num_attacks, str):
+        total = 0
+        for _ in range(weapon.count):
+            total += dice_roll(weapon.num_attacks)
+        return total
+    else:
+        return weapon.num_attacks * weapon.count
 
 
 def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
     result = HitRollResult()
     for _ in range(num_attacks):
-        roll = roll_d6()
+        roll = dice_roll("D6")
         if weapon.lethal_hits and roll >= weapon.critical_hit_value:
             result.add_lethal_hits(1)
         elif roll >= weapon.skill:
@@ -41,7 +56,7 @@ def wound_roll(weapon: Weapon, hits: HitRollResult, toughness: int) -> WoundRoll
         required_roll_to_wound += 1
 
     for _ in range(hits.hits):
-        roll = roll_d6()
+        roll = dice_roll("D6")
         if weapon.devastating_wounds and roll >= weapon.critical_wound_value:
             result.add_devastating_wounds(1)
         elif roll >= required_roll_to_wound:
@@ -55,11 +70,21 @@ def saving_throw(weapon: Weapon, wounds: WoundRollResult, save: int) -> int:
     modified_save = save + weapon.armorPen
 
     for _ in range(wounds.wounds):
-        roll = roll_d6()
+        roll = dice_roll("d6")
         if roll < modified_save:
             num_failed_saves += 1
 
     return num_failed_saves
+
+
+def damage_roll(weapon: Weapon, failed_saves: int) -> int:
+    if isinstance(weapon.damage, str):
+        total = 0
+        for _ in range(failed_saves):
+            total += dice_roll(weapon.damage)
+        return total
+    else:
+        return weapon.damage * failed_saves
 
 
 def run_simulation(weapons: List[Weapon]):
@@ -74,7 +99,8 @@ def run_simulation(weapons: List[Weapon]):
                     attacks = attack_roll(weapon)
                     hits = hit_roll(weapon, attacks)
                     wounds = wound_roll(weapon, hits, toughness)
-                    damage = saving_throw(weapon, wounds, save)
+                    failed_saves = saving_throw(weapon, wounds, save)
+                    damage = damage_roll(weapon, failed_saves)
                     total_damage += damage
                 result[weapon.name].append(round(total_damage / NUM_TRIALS, 1))
 
