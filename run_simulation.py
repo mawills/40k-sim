@@ -53,10 +53,12 @@ def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
         if roll in weapon.hit_reroll_values:
             roll = dice_roll("D6")
         if roll >= weapon.critical_hit_value:
-            if weapon.lethal_hits:
-                result.add_lethal_hits(1)
             if weapon.sustained_hits > 0:
                 result.add_hits(weapon.sustained_hits)
+            if weapon.lethal_hits:
+                result.add_lethal_hits(1)
+            else:
+                result.add_hits(1)
         elif roll >= weapon.skill:
             result.add_hits(1)
 
@@ -81,8 +83,11 @@ def wound_roll(weapon: Weapon, hits: HitRollResult, toughness: int) -> WoundRoll
             roll = dice_roll("D6")
         elif roll in weapon.wound_reroll_values:
             roll = dice_roll("D6")
-        if weapon.devastating_wounds and roll >= weapon.critical_wound_value:
-            result.add_devastating_wounds(1)
+        if roll >= weapon.critical_wound_value:
+            if weapon.devastating_wounds:
+                result.add_devastating_wounds(1)
+            else:
+                result.add_wounds(1)
         elif roll >= required_roll_to_wound:
             result.add_wounds(1)
 
