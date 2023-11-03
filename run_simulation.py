@@ -32,6 +32,12 @@ def attack_roll(weapon: Weapon) -> int:
 
 def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
     result = HitRollResult()
+
+    if weapon.torrent:
+        print(weapon)
+        result.add_hits(num_attacks)
+        return result
+
     for _ in range(num_attacks):
         roll = dice_roll("D6")
         if roll >= weapon.critical_hit_value:

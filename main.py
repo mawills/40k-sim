@@ -7,9 +7,6 @@ from run_simulation import run_simulation
 # - validate user input
 # - add weapon abilities:
 #   - blast
-#   - improve critical hit
-#   - improve critical wound
-#   - torrent
 
 with open("weapons.json", "r") as json_file:
     data = json.load(json_file)

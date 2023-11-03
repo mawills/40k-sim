@@ -9,11 +9,12 @@
   },
   "Flamer (5)": {
     "num_attacks": "D6",
-    "skill": 1,
+    "skill": 7,
     "strength": 4,
     "armor_pen": 0,
     "damage": 1,
-    "count": 5
+    "count": 5,
+    "torrent": "True"
   },
   "Lascannon (1)": {
     "num_attacks": 2,

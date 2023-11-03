@@ -11,6 +11,7 @@ class Weapon:
         lethal_hits: bool,
         sustained_hits: int,
         devastating_wounds: bool,
+        torrent: bool,
         critical_hit_value: int,
         critical_wound_value: int,
     ):
@@ -24,5 +25,6 @@ class Weapon:
         self.lethal_hits = lethal_hits
         self.sustained_hits = sustained_hits
         self.devastating_wounds = devastating_wounds
+        self.torrent = torrent
         self.critical_hit_value = critical_hit_value
         self.critical_wound_value = critical_wound_value
