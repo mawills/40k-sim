@@ -44,14 +44,14 @@ def attack_roll(weapon: Weapon) -> int:
 
 
 def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
-    result = HitRollResult()
-
     if weapon.torrent:
-        result.add_hits(num_attacks)
-        return result
+        return HitRollResult(num_attacks)
 
+    result = HitRollResult()
     for _ in range(num_attacks):
         roll = dice_roll("D6")
+        if roll in weapon.hit_reroll_values:
+            roll = dice_roll("D6")
         if roll >= weapon.critical_hit_value:
             if weapon.lethal_hits:
                 result.add_lethal_hits(1)
@@ -64,8 +64,6 @@ def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
 
 
 def wound_roll(weapon: Weapon, hits: HitRollResult, toughness: int) -> WoundRollResult:
-    result = WoundRollResult(hits.lethal_hits, 0)
-
     required_roll_to_wound = 4
     if weapon.strength > toughness:
         required_roll_to_wound -= 1
@@ -76,8 +74,13 @@ def wound_roll(weapon: Weapon, hits: HitRollResult, toughness: int) -> WoundRoll
     if 2 * weapon.strength <= toughness:
         required_roll_to_wound += 1
 
+    result = WoundRollResult(hits.lethal_hits, 0)
     for _ in range(hits.hits):
         roll = dice_roll("D6")
+        if weapon.twin_linked and roll < required_roll_to_wound:
+            roll = dice_roll("D6")
+        elif roll in weapon.wound_reroll_values:
+            roll = dice_roll("D6")
         if weapon.devastating_wounds and roll >= weapon.critical_wound_value:
             result.add_devastating_wounds(1)
         elif roll >= required_roll_to_wound:
@@ -102,7 +105,10 @@ def damage_roll(weapon: Weapon, failed_saves: int) -> int:
     if isinstance(weapon.damage, str):
         total = 0
         for _ in range(failed_saves):
-            total += dice_roll(weapon.damage)
+            roll = dice_roll(weapon.damage)
+            if roll in weapon.damage_reroll_values:
+                roll = dice_roll(weapon.damage)
+            total += roll
         return total
     else:
         return weapon.damage * failed_saves

@@ -22,6 +22,10 @@ class JsonParser:
                     weapon.get("devastating_wounds", False),
                     weapon.get("torrent", False),
                     weapon.get("blast", False),
+                    weapon.get("twin_linked", False),
+                    weapon.get("hit_reroll_values", []),
+                    weapon.get("wound_reroll_values", []),
+                    weapon.get("damage_reroll_values", []),
                     weapon.get("critical_hit_value", 6),
                     weapon.get("critical_wound_value", 6),
                 )

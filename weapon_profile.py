@@ -1,3 +1,6 @@
+from typing import List
+
+
 class Weapon:
     def __init__(
         self,
@@ -13,6 +16,10 @@ class Weapon:
         devastating_wounds: bool,
         torrent: bool,
         blast: bool,
+        twin_linked: bool,
+        hit_reroll_values: List[int],
+        wound_reroll_values: List[int],
+        damage_reroll_values: List[int],
         critical_hit_value: int,
         critical_wound_value: int,
     ):
@@ -28,5 +35,9 @@ class Weapon:
         self.devastating_wounds = devastating_wounds
         self.torrent = torrent
         self.blast = blast
+        self.twin_linked = twin_linked
+        self.hit_reroll_values = hit_reroll_values
+        self.wound_reroll_values = wound_reroll_values
+        self.damage_reroll_values = damage_reroll_values
         self.critical_hit_value = critical_hit_value
         self.critical_wound_value = critical_wound_value
