@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from config import (
     TOUGHNESS_CHARACTERISTICS,
     SAVE_CHARACTERISTICS,
+    BENCHMARKS,
     GRAPH_HEIGHT_IN,
     GRAPH_WIDTH_IN,
 )
@@ -27,13 +28,16 @@ class DamageGraph:
             )
 
         for value in x_axis:
-            ax.axvline(x=value, color="grey", alpha=0.1, linestyle="-")
+            ax.axvline(x=value, color="grey", alpha=0.1, linestyle="--")
+
+        for benchmark in BENCHMARKS:
+            ax.axvline(benchmark, alpha=0.9, linestyle=":")
 
         ax.set_xticks(x_axis)
         ax.set_xticklabels(x_axis, rotation=90)
 
         ax.set_xlabel("Defender (Toughness, Save)")
-        ax.set_ylabel("Average Damage")
+        ax.set_ylabel("Average Damage (Mean)")
         ax.legend()
 
         plt.show()
