@@ -25,7 +25,6 @@ def dice_roll(dice: str) -> int:
     addition = 0
     if len(split_string) == 3:
         addition = int(split_string[2])
-    print([dice, split_string, multiplier, max_roll, addition])
 
     return multiplier * random.randint(1, max_roll) + addition
 
