@@ -34,7 +34,6 @@ def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
     result = HitRollResult()
 
     if weapon.torrent:
-        print(weapon)
         result.add_hits(num_attacks)
         return result
 

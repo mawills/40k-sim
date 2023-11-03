@@ -16,6 +16,15 @@
     "count": 5,
     "torrent": "True"
   },
+  "Assault Bolters (3)": {
+    "num_attacks": "D3",
+    "skill": 3,
+    "strength": 5,
+    "armor_pen": 1,
+    "damage": 2,
+    "count": 3,
+    "sustained_hits": 2
+  },
   "Lascannon (1)": {
     "num_attacks": 2,
     "skill": 3,
