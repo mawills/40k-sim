@@ -26,7 +26,11 @@ def dice_roll(dice: str) -> int:
     if len(split_string) == 3:
         addition = int(split_string[2])
 
-    return multiplier * random.randint(1, max_roll) + addition
+    total = 0
+    for _ in multiplier:
+        total += random.randint(1, max_roll) + addition
+
+    return total
 
 
 def attack_roll(weapon: Weapon) -> int:
