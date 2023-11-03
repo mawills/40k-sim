@@ -6,6 +6,7 @@ from config import (
     BENCHMARKS,
     GRAPH_HEIGHT_IN,
     GRAPH_WIDTH_IN,
+    DEFENDER_UNIT_SIZE,
 )
 
 
@@ -36,8 +37,12 @@ class DamageGraph:
         ax.set_xticks(x_axis)
         ax.set_xticklabels(x_axis, rotation=90)
 
+        ax.set_title(
+            "Average (Mean) Damage Against Defending Units of %s Model(s)"
+            % (DEFENDER_UNIT_SIZE)
+        )
         ax.set_xlabel("Defender (Toughness, Save)")
-        ax.set_ylabel("Average Damage (Mean)")
+        ax.set_ylabel("Damage")
         ax.legend()
 
         plt.show()
