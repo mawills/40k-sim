@@ -14,7 +14,7 @@ class JsonParser:
                     weapon["num_attacks"],
                     weapon["skill"],
                     weapon["strength"],
-                    weapon["armor_pen"],
+                    weapon.get("armor_pen", 0),
                     weapon["damage"],
                     weapon["count"],
                     weapon.get("lethal_hits", False),

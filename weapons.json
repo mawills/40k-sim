@@ -24,9 +24,9 @@
     "num_attacks": "d6+1",
     "skill": 3,
     "strength": 9,
-    "armor_pen": 5,
+    "armor_pen": 4,
     "damage": 3,
-    "count": 2,
+    "count": 1,
     "blast": "True"
   },
   "Lascannon (1)": {

@@ -9,7 +9,7 @@ class Weapon:
         skill: int,
         strength: int,
         armorPen: int,
-        damage: int,
+        damage: int | str,
         count: int,
         lethal_hits: bool,
         sustained_hits: int,
