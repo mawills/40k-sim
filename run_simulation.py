@@ -34,8 +34,11 @@ def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
     result = HitRollResult()
     for _ in range(num_attacks):
         roll = dice_roll("D6")
-        if weapon.lethal_hits and roll >= weapon.critical_hit_value:
-            result.add_lethal_hits(1)
+        if roll >= weapon.critical_hit_value:
+            if weapon.lethal_hits:
+                result.add_lethal_hits(1)
+            if weapon.sustained_hits > 0:
+                result.add_hits(weapon.sustained_hits)
         elif roll >= weapon.skill:
             result.add_hits(1)
 

@@ -6,7 +6,6 @@ from run_simulation import run_simulation
 # TODO:
 # - validate user input
 # - add weapon abilities:
-#   - sustained hits
 #   - blast
 #   - improve critical hit
 #   - improve critical wound
