@@ -99,9 +99,11 @@ def wound_roll(weapon: Weapon, hits: HitRollResult, toughness: int) -> WoundRoll
 
 
 def saving_throw(weapon: Weapon, wounds: WoundRollResult, save: int) -> int:
-    num_failed_saves = wounds.devastating_wounds
     modified_save = save + weapon.armorPen
+    if modified_save > 6:
+        return wounds.wounds + wounds.devastating_wounds
 
+    num_failed_saves = wounds.devastating_wounds
     for _ in range(wounds.wounds):
         roll = dice_roll("d6")
         if roll < modified_save:
