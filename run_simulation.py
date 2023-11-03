@@ -27,7 +27,7 @@ def dice_roll(dice: str) -> int:
         addition = int(split_string[2])
 
     total = 0
-    for _ in multiplier:
+    for _ in range(multiplier):
         total += random.randint(1, max_roll) + addition
 
     return total
