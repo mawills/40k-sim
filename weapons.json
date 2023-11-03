@@ -25,6 +25,15 @@
     "count": 3,
     "sustained_hits": 2
   },
+  "Macro Plasma Incinerator - Supercharge (1)": {
+    "num_attacks": "d6+1",
+    "skill": 3,
+    "strength": 9,
+    "armor_pen": 5,
+    "damage": 3,
+    "count": 2,
+    "blast": "True"
+  },
   "Lascannon (1)": {
     "num_attacks": 2,
     "skill": 3,

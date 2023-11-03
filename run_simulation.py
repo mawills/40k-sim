@@ -1,7 +1,12 @@
 import random
 import re
 from typing import List
-from config import NUM_TRIALS, TOUGHNESS_CHARACTERISTICS, SAVE_CHARACTERISTICS
+from config import (
+    NUM_TRIALS,
+    TOUGHNESS_CHARACTERISTICS,
+    SAVE_CHARACTERISTICS,
+    DEFENDER_UNIT_SIZE,
+)
 from hit_roll_result import HitRollResult
 from wound_roll_result import WoundRollResult
 from weapon_profile import Weapon
@@ -9,25 +14,34 @@ from damage_graph import DamageGraph
 
 
 def dice_roll(dice: str) -> int:
+    # small performance optimization for the most common roll
+    if dice == "D6" or dice == "d6":
+        return random.randint(1, 6)
+
     split_string = re.split("[Dd+]", dice)
 
-    multiplier = int(split_string[0]) if len(split_string[0]) > 1 else 1
-    max_roll = int(split_string[1]) or 1
+    multiplier = int(split_string[0]) if split_string[0] != "" else 1
+    max_roll = int(split_string[1])
     addition = 0
-    if len(split_string) > 2:
-        addition = int(split_string[2]) if len(split_string[2]) > 1 else 0
+    if len(split_string) == 3:
+        addition = int(split_string[2])
+    print([dice, split_string, multiplier, max_roll, addition])
 
     return multiplier * random.randint(1, max_roll) + addition
 
 
 def attack_roll(weapon: Weapon) -> int:
+    blast_total = 0
+    if weapon.blast:
+        blast_total += DEFENDER_UNIT_SIZE // 5
+
     if isinstance(weapon.num_attacks, str):
         total = 0
         for _ in range(weapon.count):
             total += dice_roll(weapon.num_attacks)
-        return total
+        return total + blast_total
     else:
-        return weapon.num_attacks * weapon.count
+        return (weapon.num_attacks * weapon.count) + blast_total
 
 
 def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
