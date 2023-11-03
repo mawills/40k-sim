@@ -4,6 +4,8 @@ A damage simulator for the Warhammer 40k tabletop miniatures game, which simulat
 
 To run, navigate to the root directory and run `python main.py`. This will run the simulation using the weapons found in `weapons.json` and the config options found in `config.py`.
 
+![Example Graph](https://drive.google.com/file/d/1BQGkIKfHA0gwiwLpOpr7ghRAE3ZNujKd/view?usp=sharing)
+
 ## Weapon Properties
 
 _\* required fields._
