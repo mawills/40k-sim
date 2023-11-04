@@ -1,19 +1,16 @@
-import matplotlib
 import matplotlib.pyplot as plt
 from config import (
     TOUGHNESS_CHARACTERISTICS,
     SAVE_CHARACTERISTICS,
     BENCHMARKS,
-    GRAPH_HEIGHT_IN,
-    GRAPH_WIDTH_IN,
+    WINDOW_HEIGHT_IN,
+    WINDOW_WIDTH_IN,
     DEFENDER_UNIT_SIZE,
 )
 
 
-class DamageGraph:
-    def render_graph(damage_results: dict):
-        matplotlib.rcParams["figure.figsize"] = (GRAPH_HEIGHT_IN, GRAPH_WIDTH_IN)
-
+class DamagePlot:
+    def render_plot(damage_results: dict):
         fig, ax = plt.subplots()
 
         x_axis = []
@@ -44,5 +41,7 @@ class DamageGraph:
         ax.set_xlabel("Defender (Toughness, Save)")
         ax.set_ylabel("Damage")
         ax.legend()
+
+        fig.set_size_inches(WINDOW_WIDTH_IN, WINDOW_HEIGHT_IN)
 
         plt.show()

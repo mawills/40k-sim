@@ -6,11 +6,13 @@ from config import (
     TOUGHNESS_CHARACTERISTICS,
     SAVE_CHARACTERISTICS,
     DEFENDER_UNIT_SIZE,
+    OUTPUT_TYPE,
 )
 from hit_roll_result import HitRollResult
 from wound_roll_result import WoundRollResult
 from weapon_profile import Weapon
-from damage_graph import DamageGraph
+from damage_plot import DamagePlot
+from damage_table import DamageTable
 
 
 def dice_roll(dice: str) -> int:
@@ -126,20 +128,42 @@ def damage_roll(weapon: Weapon, failed_saves: int) -> int:
 
 
 def run_simulation(weapons: List[Weapon]):
-    result = {}
+    if OUTPUT_TYPE == "plot":
+        data = {}
+        for weapon in weapons:
+            data[weapon.name] = []
+            for toughness in TOUGHNESS_CHARACTERISTICS:
+                for save in reversed(SAVE_CHARACTERISTICS):
+                    total_damage = 0
+                    for _ in range(NUM_TRIALS):
+                        attacks = attack_roll(weapon)
+                        hits = hit_roll(weapon, attacks)
+                        wounds = wound_roll(weapon, hits, toughness)
+                        failed_saves = saving_throw(weapon, wounds, save)
+                        damage = damage_roll(weapon, failed_saves)
+                        total_damage += damage
+                    data[weapon.name].append(round(total_damage / NUM_TRIALS, 1))
 
-    for weapon in weapons:
-        result[weapon.name] = []
+        DamagePlot.render_plot(data)
+
+    else:
+        col_labels = [weapon.name for weapon in weapons]
+        row_labels = []
+        data = []
         for toughness in TOUGHNESS_CHARACTERISTICS:
             for save in reversed(SAVE_CHARACTERISTICS):
-                total_damage = 0
-                for _ in range(NUM_TRIALS):
-                    attacks = attack_roll(weapon)
-                    hits = hit_roll(weapon, attacks)
-                    wounds = wound_roll(weapon, hits, toughness)
-                    failed_saves = saving_throw(weapon, wounds, save)
-                    damage = damage_roll(weapon, failed_saves)
-                    total_damage += damage
-                result[weapon.name].append(round(total_damage / NUM_TRIALS, 1))
+                row_labels.append("T%s,%s+" % (toughness, save))
+                row = []
+                for weapon in weapons:
+                    total_damage = 0
+                    for _ in range(NUM_TRIALS):
+                        attacks = attack_roll(weapon)
+                        hits = hit_roll(weapon, attacks)
+                        wounds = wound_roll(weapon, hits, toughness)
+                        failed_saves = saving_throw(weapon, wounds, save)
+                        damage = damage_roll(weapon, failed_saves)
+                        total_damage += damage
+                    row.append(str(round(total_damage / NUM_TRIALS, 1)))
+                data.append(row)
 
-    DamageGraph.render_graph(result)
+        DamageTable.render_table(data, col_labels, row_labels)
