@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
 from blume.table import table
 from typing import List
-from config import WINDOW_HEIGHT_IN, WINDOW_WIDTH_IN, DEFENDER_UNIT_SIZE
+from config import (
+    WINDOW_HEIGHT_IN,
+    WINDOW_WIDTH_IN,
+    DEFENDER_UNIT_SIZE,
+    DEFENDER_WOUND_PER_MODEL,
+)
 
 
 class DamageTable:
@@ -31,8 +36,8 @@ class DamageTable:
         plt.box(on=None)
 
         ax.set_title(
-            "Average (Mean) Damage Against Defending Units of %s Model(s)"
-            % (DEFENDER_UNIT_SIZE)
+            "Average (Mean) Damage Against Defending Units of %s Model(s) with %s Wound(s) Per Model"
+            % (DEFENDER_UNIT_SIZE, DEFENDER_WOUND_PER_MODEL)
         )
 
         plt.show()

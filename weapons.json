@@ -1,37 +1,45 @@
 {
-  "Assault Cannon": {
-    "num_attacks": 6,
-    "skill": 3,
-    "strength": 6,
-    "armor_pen": 0,
-    "damage": 1,
-    "count": 1,
-    "devastating_wounds": "True"
-  },
-  "Heavy Flamer": {
-    "num_attacks": "d6",
+  "Twin Lightning Claws": {
+    "num_attacks": 5,
     "skill": 3,
     "strength": 5,
-    "armor_pen": 1,
-    "damage": 1,
-    "count": 1,
-    "torrent": "True"
-  },
-  "Cyclone Missile Launcher - krak": {
-    "num_attacks": 2,
-    "skill": 3,
-    "strength": 9,
     "armor_pen": 2,
-    "damage": "d6",
-    "count": 1
-  },
-  "Cyclone Missile Launcher - frag": {
-    "num_attacks": "2D6",
-    "skill": 3,
-    "strength": 4,
-    "armor_pen": 0,
     "damage": 1,
-    "count": 1,
-    "blast": "True"
+    "count": 8,
+    "twin_linked": "True"
+  },
+  "Power Fist": {
+    "num_attacks": 3,
+    "skill": 3,
+    "strength": 8,
+    "armor_pen": 2,
+    "damage": 2,
+    "count": 8
+  },
+  "Thunder Hammer": {
+    "num_attacks": 3,
+    "skill": 4,
+    "strength": 8,
+    "armor_pen": 2,
+    "damage": 2,
+    "count": 8,
+    "devastating_wounds": "True"
+  },
+  "Chainfist": {
+    "num_attacks": 3,
+    "skill": 4,
+    "strength": 8,
+    "armor_pen": 2,
+    "damage": 2,
+    "count": 8
+  },
+  "Chainfist vs Vehicle": {
+    "num_attacks": 3,
+    "skill": 4,
+    "strength": 8,
+    "armor_pen": 2,
+    "damage": 2,
+    "count": 8,
+    "critical_wound_value": 3
   }
 }

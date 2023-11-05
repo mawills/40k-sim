@@ -6,6 +6,8 @@ from config import (
     TOUGHNESS_CHARACTERISTICS,
     SAVE_CHARACTERISTICS,
     DEFENDER_UNIT_SIZE,
+    DEFENDER_WOUND_PER_MODEL,
+    SHOW_MODELS_SLAIN,
     OUTPUT_TYPE,
 )
 from hit_roll_result import HitRollResult
@@ -163,7 +165,23 @@ def run_simulation(weapons: List[Weapon]):
                         failed_saves = saving_throw(weapon, wounds, save)
                         damage = damage_roll(weapon, failed_saves)
                         total_damage += damage
-                    row.append(str(round(total_damage / NUM_TRIALS, 1)))
+                    mean_damage = round(total_damage / NUM_TRIALS, 1)
+                    if SHOW_MODELS_SLAIN:
+                        row.append(
+                            "%s (%s)"
+                            % (
+                                mean_damage,
+                                int(
+                                    min(
+                                        DEFENDER_UNIT_SIZE,
+                                        mean_damage // DEFENDER_WOUND_PER_MODEL,
+                                    )
+                                ),
+                            )
+                        )
+
+                    else:
+                        row.append(str(mean_damage))
                 data.append(row)
 
         DamageTable.render_table(data, col_labels, row_labels)
