@@ -77,32 +77,32 @@ def test_hit_roll(mock_randint):
     mock_randint.return_value = 3
 
     inputs = [
-        [
-            Weapon(
-                "test_weapon_skill_3",
-                2,
-                3,
-                4,
-                0,
-                1,
-                10,
-                False,
-                0,
-                False,
-                False,
-                False,
-                False,
-                [],
-                [],
-                [],
-                6,
-                6,
+        {
+            "weapon": Weapon(
+                name="test_weapon_skill_3",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=6,
             ),
-            20,
-            [20, 0],
-        ],
-        [
-            Weapon(
+            "num_attacks": 20,
+            "expected": [20, 0],
+        },
+        {
+            "weapon": Weapon(
                 name="test_weapon_skill_4",
                 num_attacks=2,
                 skill=4,
@@ -122,11 +122,11 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
-            20,
-            [0, 0],
-        ],
-        [
-            Weapon(
+            "num_attacks": 20,
+            "expected": [0, 0],
+        },
+        {
+            "weapon": Weapon(
                 name="test_weapon_skill_4_torrent",
                 num_attacks=2,
                 skill=4,
@@ -146,11 +146,11 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
-            15,
-            [15, 0],
-        ],
-        [
-            Weapon(
+            "num_attacks": 15,
+            "expected": [15, 0],
+        },
+        {
+            "weapon": Weapon(
                 name="test_weapon_lethal_hits_crit_3",
                 num_attacks=2,
                 skill=4,
@@ -170,11 +170,11 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
-            15,
-            [0, 15],
-        ],
-        [
-            Weapon(
+            "num_attacks": 15,
+            "expected": [0, 15],
+        },
+        {
+            "weapon": Weapon(
                 name="test_weapon_skill_lethal_hits_crit_with_torrent",
                 num_attacks=2,
                 skill=4,
@@ -194,12 +194,12 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
-            12,
-            [12, 0],
-        ],
-        [
-            Weapon(
-                name="test_weapon_sustained_hits_3_crit_3",
+            "num_attacks": 12,
+            "expected": [12, 0],
+        },
+        {
+            "weapon": Weapon(
+                name="test_weapon_sustained_hits_d3_crit_3",
                 num_attacks=2,
                 skill=3,
                 strength=4,
@@ -207,7 +207,7 @@ def test_hit_roll(mock_randint):
                 damage=1,
                 count=10,
                 lethal_hits=False,
-                sustained_hits=3,
+                sustained_hits="d3",
                 devastating_wounds=False,
                 torrent=False,
                 blast=False,
@@ -218,11 +218,11 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
-            2,
-            [8, 0],
-        ],
-        [
-            Weapon(
+            "num_attacks": 2,
+            "expected": [8, 0],
+        },
+        {
+            "weapon": Weapon(
                 name="test_weapon_sustained_and_lethal",
                 num_attacks=2,
                 skill=3,
@@ -242,14 +242,116 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
-            2,
-            [6, 2],
-        ],
+            "num_attacks": 2,
+            "expected": [6, 2],
+        },
     ]
 
     results = []
-    for [weapon, num_attacks, expected] in inputs:
-        results.append([run_simulation.hit_roll(weapon, num_attacks), expected])
+    for input in inputs:
+        results.append(
+            [
+                run_simulation.hit_roll(input["weapon"], input["num_attacks"]),
+                input["expected"],
+            ]
+        )
 
     for [result, expected] in results:
         assert [result.hits, result.lethal_hits] == expected
+
+
+@patch("run_simulation.random.randint")
+def test_wound_roll(mock_randint):
+    mock_randint.return_value = 4
+
+    inputs = [
+        {
+            "weapon": Weapon(
+                name="test_weapon_4s",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=6,
+            ),
+            "hits": HitRollResult(8, 0),
+            "toughness": 4,
+            "expected": [8, 0],
+        },
+        {
+            "weapon": Weapon(
+                name="test_weapon_lethal_hits",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=6,
+            ),
+            "hits": HitRollResult(8, 2),
+            "toughness": 5,
+            "expected": [2, 0],
+        },
+        {
+            "weapon": Weapon(
+                name="test_weapon_dev_wounds_crit_4s",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=True,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "hits": HitRollResult(8, 2),
+            "toughness": 5,
+            "expected": [2, 8],
+        },
+    ]
+
+    results = []
+    for input in inputs:
+        results.append(
+            [
+                run_simulation.wound_roll(
+                    input["weapon"], input["hits"], input["toughness"]
+                ),
+                input["expected"],
+            ]
+        )
+
+    for [result, expected] in results:
+        assert [result.wounds, result.devastating_wounds] == expected
