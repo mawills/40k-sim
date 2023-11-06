@@ -19,57 +19,65 @@ def test_dice_roll(mock_randint):
 
 @patch("run_simulation.random.randint")
 def test_attack_roll(mock_randint):
-    mock_randint.return_value = 3
-
     # TODO: mock config.DEFENDER_UNIT_SIZE to test Blast
     inputs = [
-        Weapon(
-            name="test_weapon_num_attacks_int",
-            num_attacks=2,
-            skill=3,
-            strength=4,
-            armorPen=0,
-            damage=1,
-            count=10,
-            lethal_hits=False,
-            sustained_hits=0,
-            devastating_wounds=False,
-            torrent=False,
-            blast=False,
-            twin_linked=False,
-            hit_reroll_values=[],
-            wound_reroll_values=[],
-            damage_reroll_values=[],
-            critical_hit_value=6,
-            critical_wound_value=6,
-        ),
-        Weapon(
-            name="test_weapon_num_attacks_variable",
-            num_attacks="D6",
-            skill=4,
-            strength=4,
-            armorPen=0,
-            damage=1,
-            count=10,
-            lethal_hits=False,
-            sustained_hits=0,
-            devastating_wounds=False,
-            torrent=True,
-            blast=False,
-            twin_linked=False,
-            hit_reroll_values=[],
-            wound_reroll_values=[],
-            damage_reroll_values=[],
-            critical_hit_value=6,
-            critical_wound_value=6,
-        ),
+        {
+            "weapon": Weapon(
+                name="test_weapon_num_attacks_int",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=6,
+            ),
+            "roll_result": 3,
+            "expected": 20,
+        },
+        {
+            "weapon": Weapon(
+                name="test_weapon_num_attacks_variable",
+                num_attacks="D6",
+                skill=4,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=True,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=6,
+            ),
+            "roll_result": 1,
+            "expected": 10,
+        },
     ]
 
-    result = []
+    results = []
     for input in inputs:
-        result.append(run_simulation.attack_roll(input))
+        mock_randint.return_value = input["roll_result"]
+        results.append([run_simulation.attack_roll(input["weapon"]), input["expected"]])
 
-    assert result == [20, 30]
+    for [result, expected] in results:
+        assert result == expected
 
 
 @patch("run_simulation.random.randint")
@@ -284,10 +292,10 @@ def test_wound_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
-            "hits": HitRollResult(12, 0),
+            "hits": HitRollResult(12, 1),
             "toughness": 8,
             "roll_value": 5,
-            "expected": [0, 0],
+            "expected": [1, 0],
         },
         {
             "weapon": Weapon(
