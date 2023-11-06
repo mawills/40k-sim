@@ -61,7 +61,9 @@ def hit_roll(weapon: Weapon, num_attacks: int) -> HitRollResult:
         if roll in weapon.hit_reroll_values:
             roll = dice_roll("D6")
         if roll >= weapon.critical_hit_value:
-            if weapon.sustained_hits > 0:
+            if isinstance(weapon.sustained_hits, str):
+                result.add_hits(dice_roll(weapon.sustained_hits))
+            elif weapon.sustained_hits > 0:
                 result.add_hits(weapon.sustained_hits)
             if weapon.lethal_hits:
                 result.add_lethal_hits(1)

@@ -12,7 +12,7 @@ class Weapon:
         damage: int | str,
         count: int,
         lethal_hits: bool,
-        sustained_hits: int,
+        sustained_hits: int | str,
         devastating_wounds: bool,
         torrent: bool,
         blast: bool,
