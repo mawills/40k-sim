@@ -2,7 +2,9 @@
 
 A damage simulator for the Warhammer 40k tabletop miniatures game, which simulates the dice rolls during an attack sequence to compare, at a glance, different weapon options and how they perform against an array of defensive profiles.
 
-To run, navigate to the root directory and run `python main.py`. This will run the simulation using the weapons found in `weapons.json` and the config options found in `config.py`.
+To run, create copies of `example.config.py` and `example.weapons.json` and rename them to `config.py` and `weapons.json`. Then, navigate to the root directory and run `python main.py`. This will run the simulation using the weapons found in `weapons.json` and the config options found in `config.py`.
+
+To run tests, run `pytest` in the root directory.
 
 ![Example Graph](https://drive.google.com/uc?id=1BQGkIKfHA0gwiwLpOpr7ghRAE3ZNujKd)
 

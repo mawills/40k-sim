@@ -32,9 +32,9 @@ def dice_roll(dice: str) -> int:
 
     total = 0
     for _ in range(multiplier):
-        total += random.randint(1, max_roll) + addition
+        total += random.randint(1, max_roll)
 
-    return total
+    return total + addition
 
 
 def attack_roll(weapon: Weapon) -> int:
@@ -167,6 +167,7 @@ def run_simulation(weapons: List[Weapon]):
                         total_damage += damage
                     mean_damage = round(total_damage / NUM_TRIALS, 1)
                     if SHOW_MODELS_SLAIN:
+                        # TODO: Not so sure this is an accurate calculation of average slain models.
                         row.append(
                             "%s (%s)"
                             % (
