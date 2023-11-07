@@ -2,6 +2,7 @@ from unittest.mock import patch
 import run_simulation
 from weapon_profile import Weapon
 from hit_roll_result import HitRollResult
+from wound_roll_result import WoundRollResult
 
 
 @patch("run_simulation.random.randint")
@@ -82,12 +83,10 @@ def test_attack_roll(mock_randint):
 
 @patch("run_simulation.random.randint")
 def test_hit_roll(mock_randint):
-    mock_randint.return_value = 3
-
     inputs = [
         {
             "weapon": Weapon(
-                name="test_weapon_skill_3",
+                name="test_weapon_skill_success",
                 num_attacks=2,
                 skill=3,
                 strength=4,
@@ -106,14 +105,15 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
+            "roll_result": 3,
             "num_attacks": 20,
             "expected": [20, 0],
         },
         {
             "weapon": Weapon(
-                name="test_weapon_skill_4",
+                name="test_weapon_skill_failure",
                 num_attacks=2,
-                skill=4,
+                skill=3,
                 strength=4,
                 armorPen=0,
                 damage=1,
@@ -130,6 +130,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
+            "roll_result": 2,
             "num_attacks": 20,
             "expected": [0, 0],
         },
@@ -137,7 +138,7 @@ def test_hit_roll(mock_randint):
             "weapon": Weapon(
                 name="test_weapon_skill_4_torrent",
                 num_attacks=2,
-                skill=4,
+                skill=7,
                 strength=4,
                 armorPen=0,
                 damage=1,
@@ -154,6 +155,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=6,
                 critical_wound_value=6,
             ),
+            "roll_result": 1,
             "num_attacks": 15,
             "expected": [15, 0],
         },
@@ -178,6 +180,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
+            "roll_result": 3,
             "num_attacks": 15,
             "expected": [0, 15],
         },
@@ -202,6 +205,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
+            "roll_result": 3,
             "num_attacks": 12,
             "expected": [12, 0],
         },
@@ -226,6 +230,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
+            "roll_result": 3,
             "num_attacks": 2,
             "expected": [8, 0],
         },
@@ -250,6 +255,7 @@ def test_hit_roll(mock_randint):
                 critical_hit_value=3,
                 critical_wound_value=6,
             ),
+            "roll_result": 3,
             "num_attacks": 2,
             "expected": [6, 2],
         },
@@ -257,6 +263,7 @@ def test_hit_roll(mock_randint):
 
     results = []
     for input in inputs:
+        mock_randint.return_value = input["roll_result"]
         results.append(
             [
                 run_simulation.hit_roll(input["weapon"], input["num_attacks"]),
@@ -599,3 +606,154 @@ def test_wound_roll(mock_randint):
 
     for [result, expected] in results:
         assert [result.wounds, result.devastating_wounds] == expected
+
+
+@patch("run_simulation.random.randint")
+def test_saving_throw(mock_randint):
+    inputs = [
+        {
+            "weapon": Weapon(
+                name="test_failed_saves",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "wounds": WoundRollResult(8, 0),
+            "save": 5,
+            "roll_value": 4,
+            "expected": 8,
+        },
+        {
+            "weapon": Weapon(
+                name="test_failed_saves_dev_wounds",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=0,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "wounds": WoundRollResult(8, 4),
+            "save": 5,
+            "roll_value": 4,
+            "expected": 12,
+        },
+        {
+            "weapon": Weapon(
+                name="test_failed_saves_armor_pen",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=1,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "wounds": WoundRollResult(3, 0),
+            "save": 3,
+            "roll_value": 3,
+            "expected": 3,
+        },
+        {
+            "weapon": Weapon(
+                name="test_successful_saves",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=1,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "wounds": WoundRollResult(2, 0),
+            "save": 2,
+            "roll_value": 3,
+            "expected": 0,
+        },
+        {
+            "weapon": Weapon(
+                name="test_successful_saves_dev_wounds",
+                num_attacks=2,
+                skill=3,
+                strength=4,
+                armorPen=1,
+                damage=1,
+                count=10,
+                lethal_hits=False,
+                sustained_hits=0,
+                devastating_wounds=False,
+                torrent=False,
+                blast=False,
+                twin_linked=False,
+                hit_reroll_values=[],
+                wound_reroll_values=[],
+                damage_reroll_values=[],
+                critical_hit_value=6,
+                critical_wound_value=4,
+            ),
+            "wounds": WoundRollResult(3, 5),
+            "save": 2,
+            "roll_value": 3,
+            "expected": 5,
+        },
+    ]
+
+    results = []
+    for input in inputs:
+        mock_randint.return_value = input["roll_value"]
+        results.append(
+            [
+                run_simulation.saving_throw(
+                    input["weapon"], input["wounds"], input["save"]
+                ),
+                input["expected"],
+            ]
+        )
+
+    for [result, expected] in results:
+        assert result == expected
