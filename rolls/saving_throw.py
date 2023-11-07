@@ -1,5 +1,5 @@
 from weapon_profile import Weapon
-from wound_roll_result import WoundRollResult
+from rolls.wound_roll import WoundRollResult
 from rolls.dice_roll import dice_roll
 
 

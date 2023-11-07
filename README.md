@@ -112,7 +112,7 @@ The number of copies of this weapon equipped by the attacking unit.
 
 ### (str[]) `BENCHMARKS`:
 
-**Example: ["T4,3+", "T5,2+", "T6,3+", "T10,2+"]**. This is useful for highlighting common or important defensive profiles e.g. `"T4,3+"` to make them easier to see. If `OUTPUT_TYPE` is `"plot"`, any x-axis labels included in this array will be plotted with a vertical line to make them stand out. If `OUTPUT_TYPE` is `"table"`, this will highlight any rows with a label in this array.
+**Example: ["T4,3+", "T5,2+", "T6,3+", "T10,2+"]**. This is useful for highlighting common or important defensive profiles to make them easier to see. If `OUTPUT_TYPE` is `"plot"`, any x-axis labels included in this array will be plotted with a vertical line to make them stand out. If `OUTPUT_TYPE` is `"table"`, this will highlight any rows with a label in this array.
 
 ### (bool) `SHOW_SLAIN_MODELS`:
 

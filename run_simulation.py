@@ -11,7 +11,6 @@ from config import (
 from weapon_profile import Weapon
 from charts.damage_plot import DamagePlot
 from charts.damage_table import DamageTable
-from rolls.dice_roll import dice_roll
 from rolls.attack_roll import attack_roll
 from rolls.hit_roll import hit_roll
 from rolls.wound_roll import wound_roll

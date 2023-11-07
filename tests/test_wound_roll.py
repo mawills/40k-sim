@@ -1,6 +1,6 @@
 from unittest.mock import patch
 from weapon_profile import Weapon
-from hit_roll_result import HitRollResult
+from rolls.hit_roll import HitRollResult
 from rolls.wound_roll import wound_roll
 
 
