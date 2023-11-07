@@ -2,10 +2,11 @@ import matplotlib.pyplot as plt
 from blume.table import table
 from typing import List
 from config import (
-    WINDOW_HEIGHT_IN,
-    WINDOW_WIDTH_IN,
+    BENCHMARKS,
     DEFENDER_UNIT_SIZE,
     DEFENDER_WOUND_PER_MODEL,
+    WINDOW_HEIGHT_IN,
+    WINDOW_WIDTH_IN,
 )
 
 
@@ -15,11 +16,19 @@ class DamageTable:
     ):
         fig, ax = plt.subplots()
 
+        cell_colors = []
+        for row_label in row_labels:
+            if row_label in BENCHMARKS:
+                cell_colors.append(["#83e8fc"] * len(data[0]))
+            else:
+                cell_colors.append(["w"] * len(data[0]))
+
         tbl = table(
             plt.gca(),
             cellText=data,
             rowLabels=row_labels,
             colLabels=col_labels,
+            cellColours=cell_colors,
             loc="center",
             cellLoc="center",
             bbox=[0, 0, 1, 1],

@@ -3,7 +3,7 @@ from weapon_profile import Weapon
 from rolls.hit_roll import hit_roll
 
 
-@patch("run_simulation.random.randint")
+@patch("rolls.dice_roll.random.randint")
 def test_hit_roll(mock_randint):
     inputs = [
         {

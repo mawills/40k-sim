@@ -2,7 +2,7 @@ from unittest.mock import patch
 from rolls.dice_roll import dice_roll
 
 
-@patch("run_simulation.random.randint")
+@patch("rolls.dice_roll.random.randint")
 def test_dice_roll(mock_randint):
     mock_randint.return_value = 1
 

@@ -4,7 +4,7 @@ from hit_roll_result import HitRollResult
 from rolls.wound_roll import wound_roll
 
 
-@patch("run_simulation.random.randint")
+@patch("rolls.dice_roll.random.randint")
 def test_wound_roll(mock_randint):
     inputs = [
         {

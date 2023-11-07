@@ -4,7 +4,7 @@ from wound_roll_result import WoundRollResult
 from rolls.saving_throw import saving_throw
 
 
-@patch("run_simulation.random.randint")
+@patch("rolls.dice_roll.random.randint")
 def test_saving_throw(mock_randint):
     inputs = [
         {

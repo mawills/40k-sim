@@ -3,7 +3,7 @@ from weapon_profile import Weapon
 from rolls.attack_roll import attack_roll
 
 
-@patch("run_simulation.random.randint")
+@patch("rolls.dice_roll.random.randint")
 def test_attack_roll(mock_randint):
     # TODO: mock config.DEFENDER_UNIT_SIZE to test Blast
     inputs = [
