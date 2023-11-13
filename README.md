@@ -22,7 +22,7 @@ The attacks (A) characteristic of the weapon i.e. the number of attack rolls it 
 
 ### (int) `skill`\*:
 
-The Ballistic Skill (BS) or Weapon Skill (WS) characteristic of the weapon. The weapon requires a hit roll of this value or higher in order to count as a successful hit.
+The Ballistic Skill (BS) or Weapon Skill (WS) characteristic of the weapon. A hit roll of this value or higher is required for a successful hit.
 
 ### (int) `strength`\*:
 
@@ -42,11 +42,11 @@ The number of copies of this weapon equipped by the attacking unit.
 
 ### (int) `critical_hit_value`:
 
-**Default: 6**. An unmodified hit roll of 6. A critical hit always counts as a successful hit.
+**Default: 6**. An unmodified hit roll of 6 or higher, by default. A critical hit always counts as a successful hit.
 
 ### (int) `critical_wound_value`:
 
-**Default: 6**. An unmodified wound roll of 6. A critical wound always counts as a successful wound.
+**Default: 6**. An unmodified wound roll of 6 or higher, by default. A critical wound always counts as a successful wound.
 
 ### (bool) `lethal_hits`:
 
@@ -108,7 +108,7 @@ The number of copies of this weapon equipped by the attacking unit.
 
 ### (int) `DEFENDER_WOUND_PER_MODEL`:
 
-**Example: 2**. The number of wounds on each unit in the defending model. This is useful when combined with the `SHOW_MODELS_SLAIN` config option, because it's possible to calculate the average number of slain models as well as the average damage.
+**Example: 2**. The number of wounds on each unit in the defending model. When combined with the `SHOW_MODELS_SLAIN` config option, it's possible to calculate the average number of slain models as well as the average damage.
 
 ### (str[]) `BENCHMARKS`:
 
@@ -116,7 +116,7 @@ The number of copies of this weapon equipped by the attacking unit.
 
 ### (bool) `SHOW_SLAIN_MODELS`:
 
-**Example: "True"**. If the `OUTPUT_TYPE` is `"table"`, this option will display the average number of slain models in the defending unit in parenthesis next to the average damage. Requires that the `DEFENDER_WOUND_PER_MODEL` config options be set.
+**Example: "True"**. If the `OUTPUT_TYPE` is `"table"`, this option will display the average number of slain models in the defending unit in parenthesis next to the average damage. Requires that the `DEFENDER_WOUND_PER_MODEL` config option be set.
 
 ### (int) `WINDOW_HEIGHT_IN`:
 
